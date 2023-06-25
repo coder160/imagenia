@@ -1,4 +1,5 @@
 import streamlit as BaseBuilder
+import json
 class Generator():
     def __init__(self, hf_key:str):
         self.__url = "https://api-inference.huggingface.co/models/prompthero/openjourney-v4"
@@ -62,7 +63,7 @@ class Page():
             and self.page().session_state["password"] == self.page().secrets["passwords"][self.page().session_state["username"]]):
             self.page().session_state["password_correct"] = True
             self.page().session_state["hf_key"] = self.page().secrets["PRIVATE_CONFIG"]["HUGGINGFACE_KEY"]
-            self.page().session_state["estilos"] = self.page().secrets["PRIVATE_CONFIG"]["ESTILOS_BASE"]
+            self.page().session_state["estilos"] = json.loads(self.page().secrets["PRIVATE_CONFIG"]["ESTILOS_BASE"])
             del self.page().session_state["password"]
             del self.page().session_state["username"]
         else:

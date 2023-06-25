@@ -1,5 +1,4 @@
 from core.controller import Page
-from io import StringIO
 import json
 class Settings(Page):
     def __init__(self, title:str, icon:str=None):
