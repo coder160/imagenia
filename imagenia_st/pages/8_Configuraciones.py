@@ -54,6 +54,8 @@ class Settings(Page):
         self._init_globals()
         self._key_section()
         self._style_section()
+        if self.check_password():
+            self.get_body().success("¡Bienvenido!")
         
 if __name__ == "__main__":
     Settings(title="Configuraciones",icon="⚙️").build()

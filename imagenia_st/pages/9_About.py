@@ -17,6 +17,8 @@ class About(Page):
 
 
             """)
+        if self.check_password():
+            self.get_body().success("¡Bienvenido!")
 
 if __name__ == "__main__":
     About(title="About",icon="❕").build()

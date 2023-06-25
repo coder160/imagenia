@@ -42,7 +42,28 @@ class Page():
     @BaseBuilder.cache_data
     def convert_dataframe(_self,df):
         return df.to_csv(index=False).encode('utf-8')
-    
-
-
-        
+    def check_password(self):
+        if "password_correct" not in self.page().session_state:
+            self.page().sidebar.subheader("# 👨‍💻 Secret Code!")
+            self.page().sidebar.write("¡Ingresa tu Código Secreto y desbloquea todas las funciones!")
+            self.page().sidebar.text_input("Username", on_change=self.password_entered, key="username")
+            self.page().sidebar.text_input("Password", type="password", on_change=self.password_entered, key="password")
+            return False
+        elif not self.page().session_state["password_correct"]:
+            self.page().sidebar.text_input("Username", on_change=self.password_entered, key="username")
+            self.page().sidebar.text_input("Password", type="password", on_change=self.password_entered, key="password")
+            self.page().sidebar.error("😕 Contraseña incorrecta")
+            return False
+        else:
+            self.page().sidebar.success("👨‍💻 Conectado")
+            return True
+    def password_entered(self):
+        if (self.page().session_state["username"] in self.page().secrets["passwords"]
+            and self.page().session_state["password"] == self.page().secrets["passwords"][self.page().session_state["username"]]):
+            self.page().session_state["password_correct"] = True
+            self.page().session_state["hf_key"] = self.page().secrets["HUGGINGFACE_KEY"]
+            self.page().session_state["estilos"] = self.page().secrets["ESTILOS_BASE"]
+            del self.page().session_state["password"]
+            del self.page().session_state["username"]
+        else:
+            self.page().session_state["password_correct"] = False
