@@ -1,27 +1,35 @@
 import streamlit as BaseBuilder
+import requests
 import json
 class Generator():
-    def __init__(self, hf_key:str):
-        self.__url = "https://api-inference.huggingface.co/models/prompthero/openjourney-v4"
+    def __init__(self, hf_key:str, model:str):
+        self.__url = str(f"https://api-inference.huggingface.co/models/{model}")
         self.__headers = {"Authorization": f"Bearer {hf_key}"}
-    def set_prompt(self,prompt:str,estilo:str):
-        self.__json = {"inputs": str(prompt + estilo)}
-        return self
-    def get_url(self):
+    def get_url(self)->str:
         return self.__url
     def get_headers(self):
         return self.__headers
-    def get_json(self):
-        return self.__json
-    def new_image(self):
-        import requests
+    def get_googleFlan(self)->str:
+        return str(self.get_base()+"google/flan-t5-xxl")
+    def new_image(self,prompt:str,estilo:str):
         self.__image = requests.post(url=self.get_url(),
                                      headers=self.get_headers(), 
-                                     json=self.get_json()).content
+                                     json={"inputs": str(prompt + estilo)}).content
         return self
-    def get(self):
+    def get_img(self):
         import io
         return io.BytesIO(self.__image)
+    def new_text(self):
+        self.__text = requests.post(url=self.get_googleFlan(),
+                                    headers=self.get_headers(), 
+                                    json={"inputs": "The answer to the universe is"}).json()
+    def get_text(self):
+        return self.__text
+    
+
+
+
+
 
 class Page():
     def __init__(self, title:str, icon:str=None):
@@ -29,9 +37,12 @@ class Page():
         self.__.set_page_config(page_title=title, page_icon=icon)
         self.__.title(f"# {icon} {title}")
         self.__body = self.__.container()
-        self.set_global(key="reset_opciones",
-                        value=["SURREALISTA","ACUARELA","CARTOON","ANIME",
-                               "RETRATO","FANTASY","CYBERPUNK","ABSTRACT","CUSTOM"])
+        self.set_global(key="modelos_img",
+                        value=["prompthero/openjourney-v4",
+                               "stabilityai/stable-diffusion-2-1-base",
+                               "stabilityai/stable-diffusion-2-1",
+                               "runwayml/stable-diffusion-v1-5",])
+                               
     def page(self):
         return self.__
     def get_body(self):
