@@ -63,7 +63,11 @@ class Page():
             and self.page().session_state["password"] == self.page().secrets["passwords"][self.page().session_state["username"]]):
             self.page().session_state["password_correct"] = True
             self.page().session_state["hf_key"] = self.page().secrets["PRIVATE_CONFIG"]["HUGGINGFACE_KEY"]
-            self.page().session_state["estilos"] = json.loads(self.page().secrets["PRIVATE_CONFIG"]["ESTILOS_BASE"])
+            __estilos = self.get_global(key="estilos",default =dict({"CUSTOM":""}))
+            _secretos = json.loads(str(self.page().secrets["PRIVATE_CONFIG"]["ESTILOS_BASE"]))
+            for _k,_v in _secretos.items():
+                __estilos[_k] = _v
+            self.set_global(key="estilos",value=__estilos)
             del self.page().session_state["password"]
             del self.page().session_state["username"]
         else:
