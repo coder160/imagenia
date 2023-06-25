@@ -61,8 +61,8 @@ class Page():
         if (self.page().session_state["username"] in self.page().secrets["passwords"]
             and self.page().session_state["password"] == self.page().secrets["passwords"][self.page().session_state["username"]]):
             self.page().session_state["password_correct"] = True
-            self.page().session_state["hf_key"] = self.page().secrets["HUGGINGFACE_KEY"]
-            self.page().session_state["estilos"] = self.page().secrets["ESTILOS_BASE"]
+            self.page().session_state["hf_key"] = self.page().secrets["PRIVATE_CONFIG"]["HUGGINGFACE_KEY"]
+            self.page().session_state["estilos"] = self.page().secrets["PRIVATE_CONFIG"]["ESTILOS_BASE"]
             del self.page().session_state["password"]
             del self.page().session_state["username"]
         else:
