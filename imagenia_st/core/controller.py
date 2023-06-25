@@ -19,15 +19,14 @@ class Generator():
     def get_img(self):
         import io
         return io.BytesIO(self.__image)
-    def new_text(self):
-        self.__text = requests.post(url=self.get_googleFlan(),
+    def new_text(self, prompt:str):
+        self.__text = requests.post(url=self.get_url(),
                                     headers=self.get_headers(), 
-                                    json={"inputs": "The answer to the universe is"}).json()
+                                    json={"inputs": str(prompt)}).json()
+        return self
     def get_text(self):
         return self.__text
     
-
-
 
 
 
@@ -42,7 +41,15 @@ class Page():
                                "stabilityai/stable-diffusion-2-1-base",
                                "stabilityai/stable-diffusion-2-1",
                                "runwayml/stable-diffusion-v1-5",])
-                               
+        self.set_global(key="modelos_txt",
+                        value=["google/flan-t5-xxl",
+                               "bigcode/santacoder",
+                               "tiiuae/falcon-7b-instruct",
+                               "decapoda-research/llama-7b-hf",
+                               "bigscience/bloom-560m",
+                               "gpt2",
+                               "Helsinki-NLP/opus-mt-ar-en",
+                               "facebook/bart-large-cnn"])
     def page(self):
         return self.__
     def get_body(self):
