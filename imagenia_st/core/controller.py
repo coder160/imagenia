@@ -46,7 +46,7 @@ class Page():
         if "password_correct" not in self.page().session_state:
             self.page().sidebar.subheader("# 👨‍💻 Secret Code!")
             self.page().sidebar.write("¡Ingresa tu Código Secreto y desbloquea todas las funciones!")
-            self.page().sidebar.text_input("Username", on_change=self.password_entered, key="username")
+            self.page().sidebar.text_input("Username", on_change=None, key="username")
             self.page().sidebar.text_input("Password", type="password", on_change=self.password_entered, key="password")
             return False
         elif not self.page().session_state["password_correct"]:
