@@ -40,7 +40,8 @@ class Page():
                         value=["prompthero/openjourney-v4",
                                "stabilityai/stable-diffusion-2-1-base",
                                "stabilityai/stable-diffusion-2-1",
-                               "runwayml/stable-diffusion-v1-5",])
+                               "runwayml/stable-diffusion-v1-5",
+                              "stabilityai/stable-diffusion-xl-base-1.0",])
         self.set_global(key="modelos_txt",
                         value=["google/flan-t5-xxl",
                                "bigcode/santacoder",
