@@ -38,6 +38,7 @@ class Page():
         self.__body = self.__.container()
         self.set_global(key="modelos_img",
                         value=["prompthero/openjourney-v4",
+                               "prompthero/openjourney",
                                "stabilityai/stable-diffusion-2-1-base",
                                "stabilityai/stable-diffusion-2-1",
                                "runwayml/stable-diffusion-v1-5",
